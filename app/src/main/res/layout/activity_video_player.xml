@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:visibility="gone" >
+
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:text="Park"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="showParkVideo" />
+
+        <Button
+            android:text="Planet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="showPlanetVideo" />
+
+        <Button
+            android:text="Bowling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="showBowlingVideo" />
+
+    </LinearLayout>
+
+    <Button
+        android:text="Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="back" />
+
+    <Button
+        android:id="@+id/chooseVideo"
+        android:text="Choose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="back" />
+
+</LinearLayout>
