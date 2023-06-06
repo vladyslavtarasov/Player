@@ -22,4 +22,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, VideoPlayerActivity.class);
         startActivity(intent);
     }
+
+    public void openAudioPlayer(View view) {
+        Intent intent = new Intent(this, AudioPlayerActivity.class);
+        startActivity(intent);
+    }
 }

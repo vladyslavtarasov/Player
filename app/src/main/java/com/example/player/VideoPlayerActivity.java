@@ -13,7 +13,6 @@ import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -29,7 +28,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
 
-        videoView = findViewById(R.id.videoView);
+        videoView = findViewById(R.id.video_view);
         MediaController mediaController = new MediaController(this);
 
 
@@ -40,7 +39,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
         mediaController.setMediaPlayer(videoView);
         videoView.setMediaController(mediaController);
 
-        chooseButton = findViewById(R.id.chooseVideo);
+        chooseButton = findViewById(R.id.choose_video);
         chooseButton.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("video/*");
@@ -65,7 +64,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
     }
 
     public void showVideo(View view, int RVideo) {
-        FrameLayout frameLayout = findViewById(R.id.frameLayout);
+        FrameLayout frameLayout = findViewById(R.id.frame_layout);
         frameLayout.setVisibility(View.VISIBLE);
         Uri uri = Uri.parse( "android.resource://" + getPackageName() + "/" + RVideo);
         //Uri uri = Uri.parse(videoUrl);
@@ -75,21 +74,19 @@ public class VideoPlayerActivity extends AppCompatActivity {
     }
 
     private final ActivityResultLauncher<Intent> videoActivityResultLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                    result -> {
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                         if (result.getResultCode() == Activity.RESULT_OK) {
                             Intent data = result.getData();
                             if (data != null) {
                                 Uri videoUri = data.getData();
                                 videoView.setVideoURI(videoUri);
-                                FrameLayout frameLayout = findViewById(R.id.frameLayout);
+                                FrameLayout frameLayout = findViewById(R.id.frame_layout);
                                 frameLayout.setVisibility(View.VISIBLE);
                                 videoView.start();
                             }
-                        } else {
-                            Toast.makeText(VideoPlayerActivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                        } else Toast.makeText(VideoPlayerActivity.this,
+                                        "Cancelled", Toast.LENGTH_SHORT).show();
+            });
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
