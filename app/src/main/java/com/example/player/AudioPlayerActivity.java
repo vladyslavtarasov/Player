@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.AudioManager;
@@ -25,8 +24,8 @@ import java.util.concurrent.TimeUnit;
 
 public class AudioPlayerActivity extends AppCompatActivity {
 
-    private Button chooseMusicButton, startButton, stopButton;
-    private TextView songNameTV, startTimeTV, endTimeTV;
+    private Button chooseMusicButton, startButton;
+    private TextView songNameTextView, startTimeTextView, endTimeTextView;
     private MediaPlayer mediaPlayer;
     private SeekBar progressControl, volumeControl;
     AudioManager audioManager;
@@ -42,24 +41,20 @@ public class AudioPlayerActivity extends AppCompatActivity {
 
         songContainer = findViewById(R.id.song_container);
         chooseMusicButton = findViewById(R.id.choose_audio);
-        startButton = findViewById(R.id.pause_btn);
-        stopButton = findViewById(R.id.stop_btn);
-        songNameTV = findViewById(R.id.song_name_tv);
-        startTimeTV = findViewById(R.id.start_time_tv);
-        endTimeTV = findViewById(R.id.end_time_tv);
+        startButton = findViewById(R.id.play);
+        songNameTextView = findViewById(R.id.song_name);
+        startTimeTextView = findViewById(R.id.start_time);
+        endTimeTextView = findViewById(R.id.end_time);
         mediaPlayer = new MediaPlayer();
 
         progressControl = findViewById(R.id.progress_sb);
         progressControl.setClickable(false);
 
-        //startButton.setEnabled(false);
-        //stopButton.setEnabled(false);
-
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         int curValue = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
-        volumeControl = findViewById(R.id.volumeControl);
+        volumeControl = findViewById(R.id.volume_control);
         volumeControl.setMax(maxVolume);
         volumeControl.setProgress(curValue);
         volumeControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -79,7 +74,6 @@ public class AudioPlayerActivity extends AppCompatActivity {
 
         chooseMusicButton.setOnClickListener(view -> {
             mediaPlayer.pause();
-            startButton.setText("Play");
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("audio/*");
             audioActivityResultLauncher.launch(intent);
@@ -89,12 +83,12 @@ public class AudioPlayerActivity extends AppCompatActivity {
             if (mediaPlayer != null) {
                 if (mediaPlayer.isPlaying()) {
                     mediaPlayer.pause();
-                    startButton.setText("Play");
+                    startButton.setText(R.string.play);
                 } else {
                     progressControl.setProgress(mediaPlayer.getCurrentPosition());
 
                     mediaPlayer.start();
-                    startButton.setText("Pause");
+                    startButton.setText(R.string.pause);
 
                     endTime = mediaPlayer.getDuration();
                     startTime = mediaPlayer.getCurrentPosition();
@@ -132,11 +126,11 @@ public class AudioPlayerActivity extends AppCompatActivity {
     }
 
     private void updateStartTime() {
-        timeSet(startTime, startTimeTV);
+        timeSet(startTime, startTimeTextView);
     }
 
     private void updateEndTime() {
-        timeSet(endTime, endTimeTV);
+        timeSet(endTime, endTimeTextView);
     }
 
     private void timeSet(double timeBound, TextView textViewSet) {
@@ -168,7 +162,7 @@ public class AudioPlayerActivity extends AppCompatActivity {
                         try (Cursor returnCursor = getContentResolver().query(audioUri, null, null, null, null)) {
                             int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
                             if (!returnCursor.moveToFirst()) throw new Exception();
-                            songNameTV.setText(returnCursor.getString(nameIndex));
+                            songNameTextView.setText(returnCursor.getString(nameIndex));
                         }
                         catch (Exception e) { e.printStackTrace();}
 
@@ -189,7 +183,7 @@ public class AudioPlayerActivity extends AppCompatActivity {
             });
     private void stopPlay(){
         mediaPlayer.stop();
-        startButton.setText("Play");
+        startButton.setText(R.string.play);
         try {
             mediaPlayer.prepare();
             mediaPlayer.seekTo(0);
