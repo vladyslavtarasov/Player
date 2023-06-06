@@ -3,12 +3,13 @@ package com.example.player;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,7 +28,8 @@ public class AudioPlayerActivity extends AppCompatActivity {
     private Button chooseMusicButton, startButton, stopButton;
     private TextView songNameTV, startTimeTV, endTimeTV;
     private MediaPlayer mediaPlayer;
-    private AppCompatSeekBar seekBar;
+    private SeekBar progressControl, volumeControl;
+    AudioManager audioManager;
     private ConstraintLayout songContainer;
     private double startTime, endTime;
     public static int TIME_DURATION_FLAG = 0;
@@ -47,11 +49,33 @@ public class AudioPlayerActivity extends AppCompatActivity {
         endTimeTV = findViewById(R.id.end_time_tv);
         mediaPlayer = new MediaPlayer();
 
-        seekBar = findViewById(R.id.progress_sb);
-        seekBar.setClickable(false);
+        progressControl = findViewById(R.id.progress_sb);
+        progressControl.setClickable(false);
 
-        startButton.setEnabled(false);
-        stopButton.setEnabled(false);
+        //startButton.setEnabled(false);
+        //stopButton.setEnabled(false);
+
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int curValue = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+        volumeControl = findViewById(R.id.volumeControl);
+        volumeControl.setMax(maxVolume);
+        volumeControl.setProgress(curValue);
+        volumeControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         chooseMusicButton.setOnClickListener(view -> {
             mediaPlayer.pause();
@@ -67,7 +91,7 @@ public class AudioPlayerActivity extends AppCompatActivity {
                     mediaPlayer.pause();
                     startButton.setText("Play");
                 } else {
-                    seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                    progressControl.setProgress(mediaPlayer.getCurrentPosition());
 
                     mediaPlayer.start();
                     startButton.setText("Pause");
@@ -76,20 +100,20 @@ public class AudioPlayerActivity extends AppCompatActivity {
                     startTime = mediaPlayer.getCurrentPosition();
 
                     if (TIME_DURATION_FLAG == 0) {
-                        seekBar.setMax((int) endTime);
+                        progressControl.setMax((int) endTime);
                         TIME_DURATION_FLAG = 1;
                     }
 
                     updateEndTime();
                     updateStartTime();
 
-                    seekBar.setProgress((int) startTime);
+                    progressControl.setProgress((int) startTime);
                     myHandler.postDelayed(UpdateSongTime, 100);
                 }
             }
         });
 
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        progressControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (mediaPlayer != null && fromUser) {
@@ -130,7 +154,7 @@ public class AudioPlayerActivity extends AppCompatActivity {
         public void run() {
             startTime = mediaPlayer.getCurrentPosition();
             updateStartTime();
-            seekBar.setProgress((int) startTime);
+            progressControl.setProgress((int) startTime);
             myHandler.postDelayed(this, 100);
         }
     };
@@ -153,12 +177,12 @@ public class AudioPlayerActivity extends AppCompatActivity {
                         endTime = mediaPlayer.getDuration();
                         startTime = mediaPlayer.getCurrentPosition();
 
-                        seekBar.setMax((int) endTime);
+                        progressControl.setMax((int) endTime);
 
                         updateEndTime();
                         updateStartTime();
-                        startButton.setEnabled(true);
-                        stopButton.setEnabled(true);
+                        //startButton.setEnabled(true);
+                        //stopButton.setEnabled(true);
                         songContainer.setVisibility(View.VISIBLE);
                     }
                 } else Toast.makeText(getApplicationContext(),"Cancelled", Toast.LENGTH_SHORT).show();

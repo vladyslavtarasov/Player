@@ -31,21 +31,21 @@
         android:gravity="center">
 
         <Button
-            android:text="Park"
+            android:text="@string/park"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:onClick="showParkVideo" />
 
         <Button
-            android:text="Planet"
+            android:text="@string/planet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:onClick="showPlanetVideo" />
 
         <Button
-            android:text="Bowling"
+            android:text="@string/bowling"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -60,7 +60,7 @@
         android:gravity="center">
 
         <Button
-            android:text="Back"
+            android:text="@string/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -68,7 +68,7 @@
 
         <Button
             android:id="@+id/choose_video"
-            android:text="Choose"
+            android:text="@string/choose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp" />

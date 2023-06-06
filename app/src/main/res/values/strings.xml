@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Player</string>
+    <string name="choose_audio_file">Choose audio file</string>
+    <string name="_00_00">00:00</string>
+    <string name="pause">Pause</string>
+    <string name="stop">Stop</string>
+    <string name="back">Back</string>
+    <string name="choose">Choose</string>
+    <string name="bowling">Bowling</string>
+    <string name="planet">Planet</string>
+    <string name="park">Park</string>
 </resources>
