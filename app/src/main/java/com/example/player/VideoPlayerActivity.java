@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.MediaController;
 import android.widget.Toast;
@@ -22,7 +23,9 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
     VideoView videoView;
     Button chooseButton;
-    String videoUrl = "https://media.geeksforgeeks.org/wp-content/uploads/20201217192146/Screenrecorder-2020-12-17-19-17-36-828.mp4?_=1";
+    EditText videoLink;
+    FrameLayout frameLayout;
+    String internetVideoUrl = "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_5MB.mp4";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,9 @@ public class VideoPlayerActivity extends AppCompatActivity {
             intent.setType("video/*");
             videoActivityResultLauncher.launch(Intent.createChooser(intent, "Select Video"));
         });
+
+        videoLink = findViewById(R.id.video_link);
+        frameLayout = findViewById(R.id.frame_layout);
     }
 
     public void back(View view) {
@@ -62,10 +68,8 @@ public class VideoPlayerActivity extends AppCompatActivity {
     }
 
     public void showVideo(View view, int RVideo) {
-        FrameLayout frameLayout = findViewById(R.id.frame_layout);
         frameLayout.setVisibility(View.VISIBLE);
         Uri uri = Uri.parse( "android.resource://" + getPackageName() + "/" + RVideo);
-        //Uri uri = Uri.parse(videoUrl);
         videoView.setVideoURI(uri);
 
         videoView.start();
@@ -94,5 +98,25 @@ public class VideoPlayerActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    public void showLinkVideo(View view) {
+        String videoUrl = videoLink.getText().toString();
+
+        if (videoUrl.equals("")) {
+            videoUrl = internetVideoUrl;
+        }
+
+        if (!videoUrl.endsWith(".mp4")) {
+            Toast.makeText(VideoPlayerActivity.this,
+                    "Not a video!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        frameLayout.setVisibility(View.VISIBLE);
+        Uri uri = Uri.parse(videoUrl);
+        videoView.setVideoURI(uri);
+
+        videoView.start();
     }
 }

@@ -10,4 +10,6 @@
     <string name="planet">Planet</string>
     <string name="park">Park</string>
     <string name="play">Play</string>
+    <string name="enter_link">Enter link to the video</string>
+    <string name="search">Search</string>
 </resources>
