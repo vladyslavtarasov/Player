@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/song_name_tv"
+        android:id="@+id/song_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
@@ -34,11 +34,10 @@
             android:layout_marginBottom="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <SeekBar
-            android:id="@+id/volumeControl"
+            android:id="@+id/volume_control"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
@@ -47,7 +46,7 @@
             app:layout_constraintLeft_toLeftOf="parent" />
 
         <TextView
-            android:id="@+id/start_time_tv"
+            android:id="@+id/start_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/_00_00"
@@ -56,7 +55,7 @@
             app:layout_constraintRight_toLeftOf="@id/progress_sb" />
 
         <TextView
-            android:id="@+id/end_time_tv"
+            android:id="@+id/end_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/_00_00"
@@ -64,33 +63,19 @@
             app:layout_constraintBottom_toBottomOf="@id/progress_sb"
             app:layout_constraintLeft_toRightOf="@id/progress_sb" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@id/progress_sb"
-            android:orientation="horizontal">
 
             <Button
-                android:id="@+id/pause_btn"
+                android:id="@+id/play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="10dp"
-                android:layout_weight="1"
-                android:text="@string/pause" />
+                app:layout_constraintTop_toBottomOf="@id/progress_sb"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/play" />
 
-            <Button
-                android:id="@+id/stop_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="20dp"
-                android:layout_weight="1"
-                android:onClick="stop"
-                android:text="@string/stop" />
-
-        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -175,8 +175,6 @@ public class AudioPlayerActivity extends AppCompatActivity {
 
                         updateEndTime();
                         updateStartTime();
-                        //startButton.setEnabled(true);
-                        //stopButton.setEnabled(true);
                         songContainer.setVisibility(View.VISIBLE);
                     }
                 } else Toast.makeText(getApplicationContext(),"Cancelled", Toast.LENGTH_SHORT).show();
@@ -191,9 +189,6 @@ public class AudioPlayerActivity extends AppCompatActivity {
         catch (Throwable t) {
             Toast.makeText(this, t.getMessage(), Toast.LENGTH_SHORT).show();
         }
-    }
-    public void stop(View view){
-        stopPlay();
     }
 
     @Override
