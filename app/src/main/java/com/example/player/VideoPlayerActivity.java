@@ -25,6 +25,8 @@ public class VideoPlayerActivity extends AppCompatActivity {
     Button chooseButton;
     EditText videoLink;
     FrameLayout frameLayout;
+
+    int stopPosition;
     String internetVideoUrl = "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_5MB.mp4";
 
     @Override
@@ -91,13 +93,21 @@ public class VideoPlayerActivity extends AppCompatActivity {
             });
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
+    protected void onPause() {
+        super.onPause();
+        if (videoView != null) {
+            stopPosition = videoView.getCurrentPosition();
+            videoView.pause();
+        }
     }
 
     @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
+    protected void onResume() {
+        super.onResume();
+        if (videoView != null) {
+            videoView.seekTo(stopPosition);
+            videoView.start();
+        }
     }
 
     public void showLinkVideo(View view) {
